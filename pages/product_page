@@ -1,0 +1,32 @@
+from selenium.webdriver import Remote
+from selenium.webdriver.common.by import By
+
+
+class ProductPage:
+    def __init__(self, driver: Remote):
+        self._driver = driver
+        self.product_info = ProductInfoBox(self._driver)
+
+
+class ProductInfoBox:
+    def __init__(self, driver: Remote):
+        self._driver = driver
+
+    def change_quantity(self, quantity: str):
+        self._driver.find_element(By.ID, 'quantity_wanted').send_keys(quantity)
+
+    def click_quantity_up_button(self):
+        self._driver.find_element(By.CLASS_NAME, 'product_quantity_up').click()
+
+    def click_quantity_down_button(self):
+        self._driver.find_element(By.CLASS_NAME, 'product_quantity_down').click()
+
+    def click_color_button(self, color_name: str):
+        color_name = color_name.lower().capitalize()
+        self._driver.find_element(By.XPATH, f'//ul[@id="color_to_pick_list"]//a[@name="{color_name}"]')
+
+    def click_add_cart_button(self):
+        self._driver.find_element(By.ID, 'add_to_cart').click()
+
+    def click_add_wishlist_button(self):
+        self._driver.find_element(By.ID, 'wishlist_button').click()
