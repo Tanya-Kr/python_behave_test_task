@@ -3,12 +3,15 @@ from selenium.webdriver import Remote
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from components import CartModuleBlock
 from locators import LocatorsProductPage
 
 
 class ProductPage:
     def __init__(self, driver: Remote):
         self._driver = driver
+        self.cart_module_block = CartModuleBlock(self._driver)
         self.product_info = ProductInfoBox(self._driver)
 
 
@@ -39,13 +42,3 @@ class ProductInfoBox:
 
     def click_add_wishlist_button(self):
         self._driver.find_element(*LocatorsProductPage.ADD_TO_WISHLIST_BUTTON).click()
-
-#TODO
-    def get_success_cart_text(self):
-        success_cart_text = (By.XPATH, '//h2[contains(.,"Product successfully added to your shopping cart")]')
-        try:
-            WebDriverWait(self._driver, 5)\
-                .until(EC.visibility_of_element_located(success_cart_text))
-            return True
-        except TimeoutException:
-            return False
