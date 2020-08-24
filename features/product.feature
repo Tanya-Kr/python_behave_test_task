@@ -1,7 +1,7 @@
-Feature: As a writer for NetTuts
+Feature: Test scenarios for Product page
 
   @cart
-  Scenario: Add product to cart
+  Scenario: Add product to cart from product page
     Given a user visits product page "http://automationpractice.com/index.php?id_product=2&controller=product"
     When click on Add to cart button
     Then pop up with success message is displayed

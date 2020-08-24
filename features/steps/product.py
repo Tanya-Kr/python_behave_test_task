@@ -1,10 +1,12 @@
 from behave import *
 from pages.product_page import ProductPage
 
+PRODUCT_URL = 'http://automationpractice.com/index.php?id_product=2&controller=product'
+
 
 @given(u'a user visits product page "{url}"')
 def step(context, url):
-    context.browser.get('http://automationpractice.com/index.php?id_product=2&controller=product')
+    context.browser.get(PRODUCT_URL)
     context.product = ProductPage(context.browser)
 
 

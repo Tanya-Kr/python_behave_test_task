@@ -6,20 +6,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from locators import LocatorsCartModuleBlock, LocatorsProductWidgetList, LocatorsProductWidget
 
 
-class CartModuleBlock:
+class CartModuleBlockComponent:
     def __init__(self, driver: Remote):
         self._driver = driver
 
     def get_success_cart_text(self):
         try:
             WebDriverWait(self._driver, 5) \
-                .until(EC.visibility_of_element_located(*LocatorsCartModuleBlock.SUCCESS_CART_TEXT))
+                .until(EC.visibility_of_element_located(LocatorsCartModuleBlock.SUCCESS_CART_TEXT))
             return True
         except TimeoutException:
             return False
 
 
-class ProductWidgetList:
+class ProductWidgetListComponent:
     def __init__(self, driver: Remote):
         self._driver = driver
         self._product_list = self.generate_products_list()
@@ -28,18 +28,22 @@ class ProductWidgetList:
         product_widgets = self._driver.find_elements(*LocatorsProductWidgetList.PRODUCT_WIDGET)
         product_list = []
         for product in product_widgets:
-            product_list.append(ProductWidget(product, self._driver))
+            product_list.append(ProductWidgetComponent(product, self._driver))
         return product_list
 
-    def click_add_cart_button(self, product_name):
+    def click_add_cart_button(self, product_name: str):
         product = self._get_product_instance(product_name)
         product.click_add_cart_button()
 
-    def click_more_button(self, product_name):
+    def click_more_button(self, product_name: str):
         product = self._get_product_instance(product_name)
         product.click_more_button()
 
-    def _get_product_instance(self, product_name):
+    def click_quick_view_button(self, product_name: str):
+        product = self._get_product_instance(product_name)
+        product.click_quick_view_button()
+
+    def _get_product_instance(self, product_name: str):
         for product in self._product_list:
             if product.get_name() == product_name:
                 hover = ActionChains(self._driver).move_to_element(product.product_widget)
@@ -47,7 +51,7 @@ class ProductWidgetList:
                 return product
 
 
-class ProductWidget:
+class ProductWidgetComponent:
     def __init__(self, product_widget: WebElement, driver: Remote):
         self._driver = driver
         self.product_widget = product_widget
@@ -60,3 +64,6 @@ class ProductWidget:
 
     def click_more_button(self):
         self.product_widget.find_element(*LocatorsProductWidget.MORE_BUTTON).click()
+
+    def click_quick_view_button(self):
+        self.product_widget.find_element(*LocatorsProductWidget.QUICK_VIEW_BUTTON).click()

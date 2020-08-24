@@ -1,18 +1,15 @@
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import Remote
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
-from components import CartModuleBlock
+from components import CartModuleBlockComponent
 from locators import LocatorsProductPage
 
 
 class ProductPage:
     def __init__(self, driver: Remote):
         self._driver = driver
-        self.cart_module_block = CartModuleBlock(self._driver)
+        self.cart_module_block = CartModuleBlockComponent(self._driver)
         self.product_info = ProductInfoBox(self._driver)
+        self.title = self._driver.title
 
 
 class ProductInfoBox:
