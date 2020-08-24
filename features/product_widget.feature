@@ -8,5 +8,5 @@ Feature: Test scenarios for Product widget
 
   Scenario: Open product page by click 'More' button
     Given a user visits home page "http://automationpractice.com"
-    When click on 'More' button
-    Then product page is open
+    When click on 'More' button on widget with product name "Faded Short Sleeve T-shirts"
+    Then product page is open with title "Faded Short Sleeve T-shirts"

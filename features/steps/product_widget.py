@@ -19,15 +19,15 @@ def step(context, name):
 
 @then('pop up with success message is displayed on same page')
 def step(context):
-    assert context.home_page.cart_module_block.get_success_cart_text()
+    assert context.home_page.cart_module_block.check_display_success_cart_text()
 
 
-@when('click on \'More\' button')
-def step(context):
+@when('click on \'More\' button on widget with product name "{name}"')
+def step(context, name):
     context.home_page.product_list.click_more_button(PRODUCT_NAME)
 
 
-@then('product page is open')
-def step(context):
+@then('product page is open with title "{name}"')
+def step(context, name):
     context.product = ProductPage(context.browser)
     assert PRODUCT_NAME in context.product.title

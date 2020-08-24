@@ -19,7 +19,8 @@ class LocatorsProductWidgetList:
 
 
 class LocatorsProductWidget:
+    QUICK_VIEW_BUTTON = (By.CLASS_NAME, '.quick-view')
+
     PRODUCT_NAME = (By.XPATH, './/a[@class="product-name"]')
     ADD_TO_CART_BUTTON = (By.XPATH, './/a[@title="Add to cart"]')
     MORE_BUTTON = (By.XPATH, './/a[@title="View"]')
-    QUICK_VIEW_BUTTON = (By.CLASS_NAME, '.quick-view')

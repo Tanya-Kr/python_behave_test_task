@@ -17,7 +17,7 @@ def step(context):
 
 @then('pop up with success message is displayed')
 def step(context):
-    assert context.product.cart_module_block.get_success_cart_text()
+    assert context.product.cart_module_block.check_display_success_cart_text()
 
 
 @when('click on button to up product quantity')
