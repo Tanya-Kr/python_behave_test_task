@@ -1,0 +1,51 @@
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver import Remote
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from locators import LocatorsProductPage
+
+
+class ProductPage:
+    def __init__(self, driver: Remote):
+        self._driver = driver
+        self.product_info = ProductInfoBox(self._driver)
+
+
+class ProductInfoBox:
+    def __init__(self, driver: Remote):
+        self._driver = driver
+        self._quantity_field = self._driver.find_element(*LocatorsProductPage.QUANTITY_FIELD)
+
+    def change_quantity(self, quantity: str):
+        self._quantity_field.clear()
+        self._quantity_field.send_keys(quantity)
+
+    def get_quantity(self):
+        return self._quantity_field.get_attribute("value")
+
+    def click_quantity_up_button(self):
+        self._driver.find_element(*LocatorsProductPage.QUANTITY_UP_BUTTON).click()
+
+    def click_quantity_down_button(self):
+        self._driver.find_element(*LocatorsProductPage.QUANTITY_DOWN_BUTTON).click()
+
+    def click_color_button(self, color_name: str):
+        color_name = color_name.lower().capitalize()
+        self._driver.find_element(By.XPATH, f'//ul[@id="color_to_pick_list"]//a[@name="{color_name}"]')
+
+    def click_add_cart_button(self):
+        self._driver.find_element(*LocatorsProductPage.ADD_TO_CART_BUTTON).click()
+
+    def click_add_wishlist_button(self):
+        self._driver.find_element(*LocatorsProductPage.ADD_TO_WISHLIST_BUTTON).click()
+
+#TODO
+    def get_success_cart_text(self):
+        success_cart_text = (By.XPATH, '//h2[contains(.,"Product successfully added to your shopping cart")]')
+        try:
+            WebDriverWait(self._driver, 5)\
+                .until(EC.visibility_of_element_located(success_cart_text))
+            return True
+        except TimeoutException:
+            return False
