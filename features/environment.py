@@ -12,8 +12,4 @@ def browser_chrome(context):
 
 
 def before_all(context):
-<<<<<<< HEAD
     use_fixture(browser_chrome, context)
-=======
-    use_fixture(browser_chrome, context)
->>>>>>> parent of 00640a5... "Add environment module"
