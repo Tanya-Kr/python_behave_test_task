@@ -26,3 +26,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - /var/jenkins_home
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCkx3HihPlg5olp+qIoxwBbRjbaBNStnDVXJCd87rWIEZivB52qMT8jtsLXBN0WyaLZpwFun+Jpm94GvLpDvXZdqtHiP7RUwiTgmedR7NaCsrvBO4qAbhEZm3hHrMAeb9ON3mBPtpHcvyBBZDRqA1STDZBri2lhLGmCKro246JOAF5/myKfIKgOkXHBbeEfFivpDywTJRjWLsrUwyaAT/cuUW+gyTbqs+n8ucJPcfQ5dQGYojj761CKoJ2q/ppYY/NYlxEJqp3A112ItNw6iD7y4e1HVGXJaJhd1ya82I/b6QTa41JfTO+S4m1hL6DtUnyJHLyjWP/CTiJNPv83uQTI4tFkLcs5bT8OdUhEhZmQKyDzBkfLmlEg35qyjv2uApdM478w6gu4g0SG4c06ALpYFySTLIQErzQInoTP4mmCr+QhPJ/hsT2Sjf6rm+Xz/39yJaDG1JJ4vDn222GWaeD+2LOP0oKRLOw2RgAwaVu30Sujqj7fsnKCPU6p4kFF9kE= softserve\tkruh@dp0783
