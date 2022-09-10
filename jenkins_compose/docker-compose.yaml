@@ -1,30 +1,38 @@
-# docker-compose.yaml
 version: '3.8'
+networks:
+  jenkins-network:
+    name: jenkins
+volumes:
+  data:
+    name: jenkins-data
 services:
-  jenkins_master:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
-    user: root
-    environment:
-      - TZ=America/Denver
-    restart: always
+  socat:
+    container_name: jenkins-docker
+    image: alpine/socat
+    restart: unless-stopped
+    networks:
+      jenkins-network:
+        aliases:
+          - docker
+    expose:
+      - "2375"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
-      - /var/jenkins_home
+    command: tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
+  jenkins:
+    container_name: jenkins-blueocean
+    image: jenkinsci/blueocean
+    restart: unless-stopped
+    group_add:
+      - docker
+    networks:
+      - jenkins-network
     ports:
-      - 127.0.0.1:2345:2345
       - 8080:8080
       - 50000:50000
-  jenkins_slave:
-    image: jenkins/jnlp-slave
-    container_name: jnlp_slave
-    user: root
-    command: -url http://192.168.8.113:8080 <secret> <jenkins_slave>
-    restart: always
     volumes:
+      - data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
-      - /var/jenkins_home
     environment:
-      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCkx3HihPlg5olp+qIoxwBbRjbaBNStnDVXJCd87rWIEZivB52qMT8jtsLXBN0WyaLZpwFun+Jpm94GvLpDvXZdqtHiP7RUwiTgmedR7NaCsrvBO4qAbhEZm3hHrMAeb9ON3mBPtpHcvyBBZDRqA1STDZBri2lhLGmCKro246JOAF5/myKfIKgOkXHBbeEfFivpDywTJRjWLsrUwyaAT/cuUW+gyTbqs+n8ucJPcfQ5dQGYojj761CKoJ2q/ppYY/NYlxEJqp3A112ItNw6iD7y4e1HVGXJaJhd1ya82I/b6QTa41JfTO+S4m1hL6DtUnyJHLyjWP/CTiJNPv83uQTI4tFkLcs5bT8OdUhEhZmQKyDzBkfLmlEg35qyjv2uApdM478w6gu4g0SG4c06ALpYFySTLIQErzQInoTP4mmCr+QhPJ/hsT2Sjf6rm+Xz/39yJaDG1JJ4vDn222GWaeD+2LOP0oKRLOw2RgAwaVu30Sujqj7fsnKCPU6p4kFF9kE= softserve\tkruh@dp0783
+      - DOCKER_HOST=tcp://docker:2375
+      - DOCKER_TLS_VERIFY=""
