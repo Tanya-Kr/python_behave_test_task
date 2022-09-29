@@ -42,7 +42,11 @@
 node {
      agent {
             label 'docker'
-        }
+     }
+
+     stage('Clone repository') {
+        checkout scm
+     }
 
      stage('Build Image') {
 //         docker.build('behave')
