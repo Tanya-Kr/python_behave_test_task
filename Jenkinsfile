@@ -3,11 +3,11 @@ pipeline {
         label 'docker'
     }
 
-    stage('Clone repository') {
-        checkout scm
-    }
-
     stages {
+        stage('Clone repository') {
+            checkout scm
+        }
+
         stage('Build Image') {
             steps {
                 sh "pwd"
