@@ -20,6 +20,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
   jenkins:
+    build:
+      context: .
+      shm_size: '6gb'
     container_name: jenkins-blueocean
     image: jenkinsci/blueocean
     restart: unless-stopped

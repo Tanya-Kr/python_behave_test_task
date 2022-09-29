@@ -21,7 +21,7 @@ pipeline {
         stage('Run Image') {
             steps {
                 script {
-                    sh "docker run --rm --shm-size='6gb' behave"
+                    sh "docker run --rm behave"
                 }
 
             }
